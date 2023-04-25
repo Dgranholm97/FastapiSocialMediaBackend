@@ -2,14 +2,15 @@ from typing import Optional, List, TYPE_CHECKING
 
 from sqlmodel import Field, SQLModel, Relationship
 from datetime import datetime
+from ..db import Base
 
 DateTime = Optional[datetime]
 
 if TYPE_CHECKING:
     from .user import User  # noqa: F401
     
-class FollowBase(SQLModel):
-    user_id: int  = Field(index=True, foreign_key="user.id")
+class FollowBase(Base):
+    owner_id: int  = Field(index=True, foreign_key="user.id")
     following_id: int  = Field(index=True, foreign_key="user.id")
            
 class Follow(FollowBase, table=True):#This could also be simplified into a link table
@@ -19,8 +20,8 @@ class Follow(FollowBase, table=True):#This could also be simplified into a link 
     created_at: DateTime = Field(default_factory=datetime.utcnow) 
     updated_at: DateTime = Field(default_factory=datetime.utcnow)
     
-    owner: User = Relationship(back_populates="followers")
-    following: User = Relationship(back_populates="followers")
+    owner: "User" = Relationship(back_populates="followers")
+    following: "User" = Relationship(back_populates="followers")
     
 class FollowRead(FollowBase):
     id:int

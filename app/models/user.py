@@ -3,6 +3,8 @@ from typing import Optional, List, TYPE_CHECKING
 from sqlmodel import Field, SQLModel, Relationship
 from datetime import datetime
 
+from app.db import Base
+
 DateTime = Optional[datetime]
 
 if TYPE_CHECKING:

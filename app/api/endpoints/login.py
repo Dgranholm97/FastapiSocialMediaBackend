@@ -10,11 +10,11 @@ from app import dependencies as deps
 from app.core import security
 from app.core.config import settings
 from app.core.security import get_password_hash
-from app.utils import (
-    generate_password_reset_token,
-    send_reset_password_email,
-    verify_password_reset_token,
-)
+# from app.utils import (
+#     generate_password_reset_token,
+#     send_reset_password_email,
+#     verify_password_reset_token,
+# )
 
 router = APIRouter()
 
@@ -27,7 +27,7 @@ def login_access_token(
     OAuth2 compatible token login, get an access token for future requests
     """
     user = crud.user.authenticate(
-        db, email=form_data.username, password=form_data.password
+        db, email=form_data.username, password=form_data.password # type: ignore
     )
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect email or password")
